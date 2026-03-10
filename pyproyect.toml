@@ -1,0 +1,15 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+verbosity = 2
+
+[tool.coverage.run]
+source = ["todo"]
+omit = ["tests/*"]
+
+[tool.black]
+line-length = 88
+target-version = ["py313"]
+
+[tool.flake8]
+max-line-length = 88
+exclude = [".git", "__pycache__", "venv"]
