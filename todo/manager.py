@@ -49,12 +49,7 @@ class TaskManager:
     # En Java serían: public Task add(...), public void delete(...)
     # ----------------------------------------------------------------
 
-    def add(
-        self,
-        title: str,
-        description: str = "",
-        priority: str = "normal"
-    ) -> Task:
+    def add(self, title: str, description: str = "", priority: str = "normal") -> Task:
         """
         Crea y agrega una nueva tarea.
 
@@ -153,5 +148,5 @@ class TaskManager:
                 return task
         raise ValueError(
             f"No existe ninguna tarea con ID '{task_id}'.\n"
-            f"Usa 'python main.py list' para ver los IDs disponibles."
+            f"Usa 'python main.py list' para ver los IDs."
         )

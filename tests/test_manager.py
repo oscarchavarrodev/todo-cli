@@ -5,10 +5,8 @@ Probamos toda la lógica de negocio: agregar, listar,
 completar, eliminar y estadísticas.
 """
 
-import os
 import pytest
 from todo.manager import TaskManager
-
 
 # ----------------------------------------------------------------
 # FIXTURE PRINCIPAL
@@ -16,11 +14,12 @@ from todo.manager import TaskManager
 # temporal al terminar — como @BeforeEach y @AfterEach en JUnit
 # ----------------------------------------------------------------
 
+
 @pytest.fixture
 def manager(tmp_path):
     """
     Crea un TaskManager con archivo temporal para cada test.
-    
+
     Cada test arranca con un manager completamente limpio
     sin tareas — sin importar lo que hicieron los otros tests.
     """
@@ -31,6 +30,7 @@ def manager(tmp_path):
 # ----------------------------------------------------------------
 # TESTS DE add()
 # ----------------------------------------------------------------
+
 
 class TestAdd:
     """Tests del método add."""
@@ -91,6 +91,7 @@ class TestAdd:
 # TESTS DE list_tasks()
 # ----------------------------------------------------------------
 
+
 class TestListTasks:
     """Tests del método list_tasks."""
 
@@ -143,6 +144,7 @@ class TestListTasks:
 # TESTS DE complete()
 # ----------------------------------------------------------------
 
+
 class TestComplete:
     """Tests del método complete."""
 
@@ -173,6 +175,7 @@ class TestComplete:
 # TESTS DE delete()
 # ----------------------------------------------------------------
 
+
 class TestDelete:
     """Tests del método delete."""
 
@@ -190,9 +193,9 @@ class TestDelete:
 
     def test_eliminar_tarea_correcta(self, manager):
         """Debe eliminar solo la tarea indicada, no las demás."""
-        t1 = manager.add("Tarea 1")
+        manager.add("Tarea 1")
         t2 = manager.add("Tarea 2")
-        t3 = manager.add("Tarea 3")
+        manager.add("Tarea 3")
 
         manager.delete(t2.id)
 
@@ -214,6 +217,7 @@ class TestDelete:
 # ----------------------------------------------------------------
 # TESTS DE stats()
 # ----------------------------------------------------------------
+
 
 class TestStats:
     """Tests del método stats."""

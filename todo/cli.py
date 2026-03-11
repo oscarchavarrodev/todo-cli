@@ -43,10 +43,6 @@ Ejemplos:
         help="Comando a ejecutar",
     )
 
-    # ------------------------------------------------------------------
-    # SUBCOMANDO: add
-    # python main.py add "Mi tarea" --desc "detalle" --priority high
-    # ------------------------------------------------------------------
     add_parser = subparsers.add_parser("add", help="Agregar una nueva tarea")
     add_parser.add_argument(
         "title",
@@ -64,11 +60,6 @@ Ejemplos:
         help="Prioridad: low, normal, high (default: normal)",
     )
 
-    # ------------------------------------------------------------------
-    # SUBCOMANDO: list
-    # python main.py list
-    # python main.py list --pending
-    # ------------------------------------------------------------------
     list_parser = subparsers.add_parser("list", help="Listar tareas")
     list_parser.add_argument(
         "--pending",
@@ -76,27 +67,15 @@ Ejemplos:
         help="Mostrar solo tareas pendientes",
     )
 
-    # ------------------------------------------------------------------
-    # SUBCOMANDO: complete
-    # python main.py complete a1b2c3d4
-    # ------------------------------------------------------------------
     complete_parser = subparsers.add_parser(
         "complete",
         help="Marcar una tarea como completada",
     )
     complete_parser.add_argument("id", help="ID de la tarea")
 
-    # ------------------------------------------------------------------
-    # SUBCOMANDO: delete
-    # python main.py delete a1b2c3d4
-    # ------------------------------------------------------------------
     delete_parser = subparsers.add_parser("delete", help="Eliminar una tarea")
     delete_parser.add_argument("id", help="ID de la tarea")
 
-    # ------------------------------------------------------------------
-    # SUBCOMANDO: stats
-    # python main.py stats
-    # ------------------------------------------------------------------
     subparsers.add_parser("stats", help="Ver estadísticas")
 
     return parser
@@ -107,18 +86,21 @@ def _print_task_list(manager: TaskManager, only_pending: bool = False) -> None:
     tasks = manager.list_tasks(only_pending=only_pending)
 
     if not tasks:
-        msg = "📭 No hay tareas pendientes." if only_pending else "📭 No hay tareas."
+        msg = (
+            "📭 No hay tareas pendientes."
+            if only_pending
+            else "📭 No hay tareas."
+        )
         print(msg)
         return
 
-    print(f"\n{'─' * 52}")
+    print("\n" + "─" * 52)
     for task in tasks:
         print(f"  {task}")
         if task.description:
             print(f"     └─ {task.description}")
-    print(f"{'─' * 52}")
+    print("─" * 52)
 
-    # Siempre muestra el resumen al final de la lista
     s = manager.stats()
     print(
         f"  Total: {s['total']}  |  "
@@ -140,16 +122,10 @@ def run(args=None) -> None:
     parsed = parser.parse_args(args)
     manager = TaskManager()
 
-    # Si no se pasó ningún comando, muestra la ayuda
     if parsed.command is None:
         parser.print_help()
         sys.exit(0)
 
-    # ------------------------------------------------------------------
-    # En Java esto sería un switch/case o if-else chain
-    # Python 3.10+ tiene 'match' pero usamos if-else
-    # para compatibilidad y claridad
-    # ------------------------------------------------------------------
     try:
         if parsed.command == "add":
             task = manager.add(
@@ -157,7 +133,7 @@ def run(args=None) -> None:
                 description=parsed.desc,
                 priority=parsed.priority,
             )
-            print(f"\n✅ Tarea agregada exitosamente:")
+            print("\n✅ Tarea agregada exitosamente:")
             print(f"   {task}\n")
 
         elif parsed.command == "list":
@@ -165,7 +141,7 @@ def run(args=None) -> None:
 
         elif parsed.command == "complete":
             task = manager.complete(parsed.id)
-            print(f"\n✅ Tarea completada:")
+            print("\n✅ Tarea completada:")
             print(f"   {task}\n")
 
         elif parsed.command == "delete":
@@ -174,19 +150,19 @@ def run(args=None) -> None:
 
         elif parsed.command == "stats":
             s = manager.stats()
-            print(f"\n{'─' * 30}")
-            print(f"  📊 Estadísticas")
-            print(f"{'─' * 30}")
+            print("\n" + "─" * 30)
+            print("  📊 Estadísticas")
+            print("─" * 30)
             print(f"  Total:       {s['total']}")
             print(f"  Completadas: {s['completed']}")
             print(f"  Pendientes:  {s['pending']}")
             if s["total"] > 0:
                 pct = (s["completed"] / s["total"]) * 100
                 bar = "█" * int(pct / 5) + "░" * (20 - int(pct / 5))
-                print(f"  Progreso:    [{bar}] {pct:.0f}%")
-            print(f"{'─' * 30}\n")
+                progreso = f"[{bar}] {pct:.0f}%"
+                print(f"  Progreso:    {progreso}")
+            print("─" * 30 + "\n")
 
     except ValueError as e:
-        # Error esperado — lo mostramos limpio sin traceback
         print(f"\n❌ Error: {e}\n")
         sys.exit(1)

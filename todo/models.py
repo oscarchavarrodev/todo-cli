@@ -8,9 +8,7 @@ Esta independencia es lo que hace el código testeable y mantenible.
 
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Optional
 import uuid
-
 
 VALID_PRIORITIES = {"low", "normal", "high"}
 

@@ -11,17 +11,17 @@ import pytest
 from todo.models import Task
 from todo import storage
 
-
 # ----------------------------------------------------------------
 # FIXTURES — son como el @BeforeEach de JUnit en Java
 # Se ejecutan antes de cada test automáticamente
 # ----------------------------------------------------------------
 
+
 @pytest.fixture
 def temp_file(tmp_path):
     """
     Crea una ruta temporal para el archivo JSON de tests.
-    
+
     tmp_path es una carpeta temporal que pytest crea y elimina
     automáticamente — no ensucia tu proyecto con archivos de prueba.
     """
@@ -41,6 +41,7 @@ def tasks_de_prueba():
 # ----------------------------------------------------------------
 # TESTS DE load_tasks
 # ----------------------------------------------------------------
+
 
 class TestLoadTasks:
     """Tests de la función load_tasks."""
@@ -87,6 +88,7 @@ class TestLoadTasks:
 # ----------------------------------------------------------------
 # TESTS DE save_tasks
 # ----------------------------------------------------------------
+
 
 class TestSaveTasks:
     """Tests de la función save_tasks."""

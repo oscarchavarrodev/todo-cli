@@ -14,7 +14,6 @@ from typing import List
 
 from todo.models import Task
 
-
 # Nombre del archivo por defecto
 DEFAULT_FILE = "tasks.json"
 
